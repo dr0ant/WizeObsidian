@@ -128,6 +128,9 @@
         <mxCell id="0kA9bC3udywTv-t5Iwg6-46" value="Qgis villes/capitales" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-327" y="1060" width="200" height="40" as="geometry" />
         </mxCell>
+        <mxCell id="0kA9bC3udywTv-t5Iwg6-49" value="Qgis fleuves et rivières" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-327" y="1110" width="200" height="40" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
