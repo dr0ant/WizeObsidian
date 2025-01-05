@@ -3,6 +3,7 @@ import re
 import os
 import psycopg2
 from psycopg2 import sql
+import json  # Import the JSON module
 
 # Define a function to process a single markdown file
 def process_markdown_file(file_path):
@@ -10,7 +11,6 @@ def process_markdown_file(file_path):
         markdown_content = file.read()
 
     pattern = r"### \*\*(?P<section_number>[\d\.\s\w]+)\*\*\s*(?P<section_content>(?:.|\n(?!### \*\*))+)"
-
     matches = re.finditer(pattern, markdown_content, re.MULTILINE)
 
     sections = []
@@ -77,6 +77,13 @@ def save_to_postgresql(df, db_params, table_name):
 
     print(f"Data has been successfully merged into the table {table_name}.")
 
+# Load PostgreSQL connection parameters from a JSON file
+with open("postgres_params.json", "r",encoding="utf-8") as json_file:
+    db_params = json.load(json_file)
+    print("Connecting to PostgreSQL with the following parameters:")
+    print({key: db_params[key] for key in db_params})
+
+
 # Specify the directory containing the markdown files
 directory_path = "C:/Users/larch/iCloudDrive/iCloud~md~obsidian/WizeCosm/00 - Univers/Les Races/" 
 
@@ -84,15 +91,8 @@ df = process_markdown_files_in_directory(directory_path)
 
 print(df)
 
-# PostgreSQL connection parameters
-db_params = {
-    "dbname": "wizecosm_NAS",
-    "user": "dr0ant",
-    "password": "°889",
-    "host": "100.72.70.102",
-    "port": "5433"
-}
-
+# Specify the table name in PostgreSQL
 table_name = "races"
 
+# Save the DataFrame to PostgreSQL
 save_to_postgresql(df, db_params, table_name)
