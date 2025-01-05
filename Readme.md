@@ -1,0 +1,1 @@
+![WizeObsidian Logo](wizeobsidian.png)
