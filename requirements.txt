@@ -3,3 +3,4 @@ psycopg2
 dagster
 dagster-pandas
 dagster-postgres
+dagit

@@ -6,6 +6,8 @@ from psycopg2 import sql
 import json
 
 
+
+
 class Markdown_to_Postgres:
     def __init__(self, db_config_path):
         """
