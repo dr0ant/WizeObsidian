@@ -1,2 +1,16 @@
 myenv/*
 postgres_params.json
+myenvLib/site-packages/*
+obsidian_to_postgres/__pycache__/*
+myenv/Lib/site-packages/psycopg2/_psycopg.cp310-win_amd64.pyd
+myenv/Lib/site-packages/psycopg2/__pycache__/__init__.cpython-310.pyc
+myenv/Lib/site-packages/psycopg2/__pycache__/_ipaddress.cpython-310.pyc
+myenv/Lib/site-packages/psycopg2/__pycache__/_json.cpython-310.pyc
+myenv/Lib/site-packages/psycopg2/__pycache__/_range.cpython-310.pyc
+myenv/Lib/site-packages/psycopg2/__pycache__/errorcodes.cpython-310.pyc
+myenv/Lib/site-packages/psycopg2/__pycache__/errors.cpython-310.pyc
+myenv/Lib/site-packages/psycopg2/__pycache__/extensions.cpython-310.pyc
+myenv/Lib/site-packages/psycopg2/__pycache__/extras.cpython-310.pyc
+myenv/Lib/site-packages/psycopg2/__pycache__/pool.cpython-310.pyc
+myenv/Lib/site-packages/psycopg2/__pycache__/sql.cpython-310.pyc
+myenv/Lib/site-packages/psycopg2/__pycache__/tz.cpython-310.pyc

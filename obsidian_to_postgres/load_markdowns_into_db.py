@@ -7,6 +7,7 @@ def main():
     flows = [
         {"table_name": "races", "directory_path": "C:/Users/larch/iCloudDrive/iCloud~md~obsidian/WizeCosm/00 - Univers/Les Races/"},
         {"table_name": "politics", "directory_path": "C:/Users/larch/iCloudDrive/iCloud~md~obsidian/WizeCosm/00 - Univers/Politique/"},
+        
         # Add more flows here...
     ]
 
