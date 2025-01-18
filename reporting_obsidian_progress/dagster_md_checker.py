@@ -1,5 +1,6 @@
 import os
 import json
+import shutil
 from pathlib import Path
 from datetime import datetime
 import pandas as pd
@@ -11,7 +12,7 @@ import subprocess
 # Define ops
 @op(out=Out(pd.DataFrame))
 def load_md_files() -> pd.DataFrame:
-    base_path = Path("C:/Users/larch/iCloudDrive/iCloud~md~obsidian/WizeCosm/")
+    base_path = Path("C:/Users/larch/iCloudDrive/iCloud~md~obsidian/WizeCosm/") 
     data = []
 
     for root, _, files in os.walk(base_path):
@@ -101,10 +102,33 @@ def trigger_dbt_flow():
     else:
         print(f"DBT docs generated successfully: {result_docs.stdout}")
 
+@op
+def copy_docs_to_target():
+    # Define the source and destination paths
+    source_dir = Path("C:/Users/larch/SynologyDrive/WizeObsidian/dbt/wizeobsidian_project/target")
+    destination_dir = Path("C:/Users/larch/SynologyDrive/WizeObsidian/docs")
+
+    # Recursively copy all files from source to destination
+    if source_dir.exists() and source_dir.is_dir():
+        for item in source_dir.rglob('*'):
+            if item.is_file():
+                relative_path = item.relative_to(source_dir)
+                target_path = destination_dir / relative_path
+
+                # Ensure destination directory exists
+                target_path.parent.mkdir(parents=True, exist_ok=True)
+
+                # Copy the file, replace backslashes with forward slashes
+                shutil.copy(item, target_path)
+
+        print(f"Copied contents from {source_dir} to {destination_dir}")
+    else:
+        print(f"Source directory {source_dir} does not exist.")
+
 @job
 def md_file_analysis_job():
-    # Load markdown files, then merge to Postgres, and finally trigger dbt flow
+    # Load markdown files, then merge to Postgres, trigger dbt flow, and finally copy docs
     df = load_md_files()
     merge_to_postgres(df)
     trigger_dbt_flow()
-
+    copy_docs_to_target()
