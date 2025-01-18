@@ -6,6 +6,7 @@ import pandas as pd
 from dagster import job, op, Out, Output, In, Nothing
 import psycopg2
 from psycopg2.extras import execute_values
+import subprocess
 
 # Define ops
 @op(out=Out(pd.DataFrame))
@@ -77,6 +78,33 @@ def merge_to_postgres(df: pd.DataFrame):
             )
         conn.commit()
 
+@op
+def trigger_dbt_flow():
+    # Define the path to your dbt project and the dbt command
+    dbt_project_path = Path("C:/Users/larch/SynologyDrive/WizeObsidian/dbt/wizeobsidian_project")
+    
+    # Run dbt run command
+    dbt_run_command = ["dbt", "run", "--models", "reporting_analysis_obsidian_WizeCosm"]
+    result = subprocess.run(dbt_run_command, cwd=dbt_project_path, capture_output=True, text=True)
+
+    if result.returncode != 0:
+        raise Exception(f"DBT run failed: {result.stderr}")
+    else:
+        print(f"DBT run succeeded: {result.stdout}")
+
+    # Run dbt docs generate command
+    dbt_docs_command = ["dbt", "docs", "generate"]
+    result_docs = subprocess.run(dbt_docs_command, cwd=dbt_project_path, capture_output=True, text=True)
+
+    if result_docs.returncode != 0:
+        raise Exception(f"DBT docs generate failed: {result_docs.stderr}")
+    else:
+        print(f"DBT docs generated successfully: {result_docs.stdout}")
+
 @job
 def md_file_analysis_job():
-    merge_to_postgres(load_md_files())
+    # Load markdown files, then merge to Postgres, and finally trigger dbt flow
+    df = load_md_files()
+    merge_to_postgres(df)
+    trigger_dbt_flow()
+

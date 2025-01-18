@@ -4,3 +4,4 @@ dagster
 dagster-pandas
 dagster-postgres
 dagit
+dbt-postgres
