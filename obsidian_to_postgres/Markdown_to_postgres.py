@@ -4,6 +4,7 @@ import os
 import psycopg2
 from psycopg2 import sql
 import json
+from dagster import get_dagster_logger
 
 
 
@@ -30,6 +31,8 @@ class Markdown_to_Postgres:
             print({key: db_params[key] for key in db_params})
         return db_params
 
+    from dagster import get_dagster_logger
+
     def process_markdown_file(self, file_path):
         """
         Process a single markdown file to extract sections and content.
@@ -37,11 +40,11 @@ class Markdown_to_Postgres:
         :param file_path: Path to the markdown file.
         :return: List of dictionaries with section details.
         """
+        logger = get_dagster_logger()  # Initialize the Dagster logger
         with open(file_path, 'r', encoding='utf-8') as file:
             markdown_content = file.read()
 
         pattern = r"### \*\*(?P<section_number>[\d\.\s\w]+)\*\*\s*(?P<section_content>(?:.|\n(?!### \*\*))+)"
-
         matches = re.finditer(pattern, markdown_content, re.MULTILINE)
         sections = []
         for match in matches:
@@ -52,8 +55,14 @@ class Markdown_to_Postgres:
                 "Content": section_content,
                 "File Name": os.path.basename(file_path)
             })
+            # Use logger to log extracted information
+            logger.info(F"File :{file_path}" )
+            logger.info(f"Extracted Section Title: {section_number_and_title}")
+            logger.debug(f"Content: {section_content[:100]}...")  # Log only the first 100 characters of content
+            logger.info("-" * 80)
 
         return sections
+
 
     def process_markdown_files_in_directory(self, directory_path):
         """

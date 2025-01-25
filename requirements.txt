@@ -5,3 +5,4 @@ dagster-pandas
 dagster-postgres
 dagit
 dbt-postgres
+pyicloud
