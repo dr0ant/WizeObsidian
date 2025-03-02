@@ -62,6 +62,7 @@ def load_markdowns_into_db():
     flows = [
         {"table_name": "races", "directory_path": "C:/Users/larch/iCloudDrive/iCloud~md~obsidian/WizeCosm/00 - Univers/Les Races/"},
         {"table_name": "politics", "directory_path": "C:/Users/larch/iCloudDrive/iCloud~md~obsidian/WizeCosm/00 - Univers/Politique/"},
+        {"table_name": "continents", "directory_path": "C:/Users/larch/iCloudDrive/iCloud~md~obsidian/WizeCosm/01 - Géographie/Continents/"},
         # Add more flows here...
     ]
 
