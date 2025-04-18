@@ -1,9 +1,9 @@
 from dagster import job, op, In, Out, Field, Nothing, get_dagster_logger
-from markdown_to_postgres import Markdown_to_Postgres
 import pandas as pd
 import sys
 import os
 sys.path.append(os.path.abspath("obsidian_to_postgres"))  # Adjust the path as needed
+from Markdown_to_postgres import Markdown_to_Postgres
 
 
 @op(
