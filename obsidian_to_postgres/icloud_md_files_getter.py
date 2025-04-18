@@ -1,5 +1,4 @@
 from pyicloud import PyiCloudService
-import getpass
 import json
 from shutil import copyfileobj
 import os
@@ -80,9 +79,11 @@ class ICloudFileGetter:
 
 
 if __name__ == "__main__":
-    # Prompt for iCloud credentials
-    icloud_username = input("Enter your iCloud email: ").strip()
-    icloud_password = getpass.getpass("Enter your iCloud password: ").strip()
+    # Load credentials from icloud_params.json
+    with open("icloud_params.json", "r") as params_file:
+        icloud_params = json.load(params_file)
+        icloud_username = icloud_params["email"]
+        icloud_password = icloud_params["password"]
 
     # Define the folders to scan as a list of paths
     icloud_folders_to_scan = [
