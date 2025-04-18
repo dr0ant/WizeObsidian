@@ -60,9 +60,9 @@ def load_markdowns_into_db():
     Main Dagster job to process markdown files and save them into PostgreSQL tables.
     """
     flows = [
-        {"table_name": "races", "directory_path": "C:/Users/larch/iCloudDrive/iCloud~md~obsidian/WizeCosm/00 - Univers/Les Races/"},
-        {"table_name": "politics", "directory_path": "C:/Users/larch/iCloudDrive/iCloud~md~obsidian/WizeCosm/00 - Univers/Politique/"},
-        {"table_name": "continents", "directory_path": "C:/Users/larch/iCloudDrive/iCloud~md~obsidian/WizeCosm/01 - Géographie/Continents/"},
+       {"table_name": "races", "directory_path": "/Users/antoinelarcher/Library/Mobile Documents/iCloud~md~obsidian/Documents/WizeCosm/00 - Univers/Les Races/"},
+       {"table_name": "politics", "directory_path": "/Users/antoinelarcher/Library/Mobile Documents/iCloud~md~obsidian/Documents/WizeCosm/00 - Univers/Politique/"},
+       {"table_name": "continents", "directory_path": "/Users/antoinelarcher/Library/Mobile Documents/iCloud~md~obsidian/Documents/WizeCosm/01 - Géographie/Continents/"},
         # Add more flows here...
     ]
 

@@ -6,3 +6,4 @@ dagster-postgres
 dagit
 dbt-postgres
 pyicloud
+dagster-webserver
