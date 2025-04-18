@@ -1,0 +1,1 @@
+dagster job execute -f obsidian_to_postgres/dagster_load_icloud_into_db.py -j load_markdowns_into_db

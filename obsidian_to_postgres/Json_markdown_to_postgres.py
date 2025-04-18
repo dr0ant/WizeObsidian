@@ -31,34 +31,7 @@ class Markdown_to_Postgres:
             print({key: db_params[key] for key in db_params})
         return db_params
 
-    def process_markdown_from_json(self, file_name, markdown_content):
-        """
-        Process a single markdown content from a JSON variable to extract sections and content.
-
-        :param file_name: Name of the markdown file (used for reference).
-        :param markdown_content: Content of the markdown file as a string.
-        :return: List of dictionaries with section details.
-        """
-        logger = get_dagster_logger()  # Initialize the Dagster logger
-
-        pattern = r"### \*\*(?P<section_number>[\d\.\s\w]+)\*\*\s*(?P<section_content>(?:.|\n(?!### \*\*))+)"
-        matches = re.finditer(pattern, markdown_content, re.MULTILINE)
-        sections = []
-        for match in matches:
-            section_number_and_title = match.group("section_number").strip()
-            section_content = match.group("section_content").strip()
-            sections.append({
-                "Section Title": section_number_and_title,
-                "Content": section_content,
-                "File Name": file_name
-            })
-            # Use logger to log extracted information
-            logger.info(f"File: {file_name}")
-            logger.info(f"Extracted Section Title: {section_number_and_title}")
-            logger.debug(f"Content: {section_content[:100]}...")  # Log only the first 100 characters of content
-            logger.info("-" * 80)
-
-        return sections
+    from dagster import get_dagster_logger
 
     def process_markdown_file(self, file_path):
         """
@@ -131,8 +104,7 @@ class Markdown_to_Postgres:
                 "Section Title" TEXT NOT NULL,
                 "Content" TEXT,
                 "File Name" TEXT NOT NULL,
-                UNIQUE ("Section Title", "File Name"),
-                loaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                UNIQUE ("Section Title", "File Name")
             )
         """).format(table=sql.Identifier(table_name))
         cursor.execute(create_table_query)
@@ -143,8 +115,7 @@ class Markdown_to_Postgres:
                 INSERT INTO wizeobsidian.{table} ("Section Title", "Content", "File Name")
                 VALUES (%s, %s, %s)
                 ON CONFLICT ("Section Title", "File Name")
-                DO UPDATE SET "Content" = EXCLUDED."Content",
-                              "loaded_at" = CURRENT_TIMESTAMP   
+                DO UPDATE SET "Content" = EXCLUDED."Content"
             """).format(table=sql.Identifier(table_name))
             cursor.execute(merge_query, (row["Section Title"], row["Content"], row["File Name"]))
 
